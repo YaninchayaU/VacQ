@@ -40,11 +40,9 @@ exports.login = async (req, res, next) => {
 
   //check for user
   const user = await User.findOne({ email }).select("+password");
-
+  console.log(user);
   if (!user) {
-    return res
-      .status(400)
-      .json({ success: false, msg: "Invalid creedentials" });
+    return res.status(400).json({ success: false, msg: "Invalid credentials" });
   }
 
   //check if password matches
@@ -52,7 +50,7 @@ exports.login = async (req, res, next) => {
   const isMatch = await user.matchPassword(password);
 
   if (!isMatch) {
-    return res.status(401).json({ success: false, msg: "Invalid cresentials" });
+    return res.status(401).json({ success: false, msg: "Invalid credentials" });
   }
 
   //Create token
